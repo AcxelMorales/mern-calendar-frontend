@@ -6,6 +6,10 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'moment/locale/es';
 
+import { useDispatch } from 'react-redux';
+
+import { uiOpenModal } from '../../actions/ui';
+
 import { Navbar } from '../ui/Navbar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
@@ -34,6 +38,8 @@ export const CalendarScreen = () => {
     localStorage.getItem('lastView') || 'month'
   );
 
+  const dispatch = useDispatch();
+
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
       backgroundColor: '#367CF7',
@@ -49,7 +55,7 @@ export const CalendarScreen = () => {
   };
 
   const onDoubleClick = (evt) => {
-    console.log(evt);
+    dispatch(uiOpenModal());
   };
 
   const onSelectEvent = (evt) => {
