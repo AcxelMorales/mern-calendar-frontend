@@ -8,6 +8,7 @@ import 'moment/locale/es';
 
 import { Navbar } from '../ui/Navbar';
 import { CalendarEvent } from './CalendarEvent';
+import { CalendarModal } from './CalendarModal';
 
 import { messages } from '../../helpers/calendar-messages-es';
 
@@ -79,6 +80,8 @@ export const CalendarScreen = () => {
           event: CalendarEvent,
         }}
       />
+
+      <CalendarModal />
     </div>
   );
 };
