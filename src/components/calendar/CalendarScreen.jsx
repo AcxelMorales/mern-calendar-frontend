@@ -7,6 +7,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'moment/locale/es';
 
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { uiOpenModal } from '../../actions/ui';
 import { eventSetActive } from '../../actions/events';
@@ -21,19 +22,6 @@ import { messages } from '../../helpers/calendar-messages-es';
 moment.locale('es');
 
 const localizer = momentLocalizer(moment);
-const myEventsList = [
-  {
-    title: 'Cumpleaños del jefe',
-    start: moment().toDate(),
-    end: moment().add(2, 'hours').toDate(),
-    bgColor: '#fafafa',
-    notes: 'Tomar cerveza 🍺',
-    user: {
-      _id: 'XXX',
-      name: 'Acxel',
-    },
-  },
-];
 
 export const CalendarScreen = () => {
   const [lastView, setLastView] = useState(
@@ -41,6 +29,9 @@ export const CalendarScreen = () => {
   );
 
   const dispatch = useDispatch();
+  const { events } = useSelector(({ calendar }) => calendar);
+
+  console.log(events);
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
@@ -62,7 +53,6 @@ export const CalendarScreen = () => {
 
   const onSelectEvent = (evt) => {
     dispatch(eventSetActive(evt));
-    dispatch(uiOpenModal());
   };
 
   const onViewChange = (evt) => {
@@ -76,7 +66,7 @@ export const CalendarScreen = () => {
 
       <Calendar
         localizer={localizer}
-        events={myEventsList}
+        events={events}
         startAccessor="start"
         endAccessor="end"
         messages={messages}
