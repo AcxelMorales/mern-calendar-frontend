@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import Modal from 'react-modal';
@@ -9,7 +9,11 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew } from '../../actions/events';
+import {
+  eventAddNew,
+  eventClearActiveEvent,
+  eventUpdated,
+} from '../../actions/events';
 
 const customStyles = {
   content: {
@@ -27,16 +31,18 @@ Modal.setAppElement('#root');
 const now = moment().minutes(0).seconds(0).add(1, 'hours');
 const endVal = now.clone().add(1, 'hours');
 
+const initEvent = {
+  title: '',
+  notes: '',
+  start: now.toDate(),
+  end: endVal.toDate(),
+};
+
 export const CalendarModal = () => {
   const [dateStart, setDateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(endVal.toDate());
 
-  const [formValues, setFormValues] = useState({
-    title: 'Evento',
-    notes: '',
-    start: now.toDate(),
-    end: endVal.toDate(),
-  });
+  const [formValues, setFormValues] = useState(initEvent);
 
   const [titleValid, setTitleValid] = useState(true);
 
@@ -44,6 +50,13 @@ export const CalendarModal = () => {
 
   const dispatch = useDispatch();
   const { modalOpen } = useSelector(({ ui }) => ui);
+  const { activeEvent } = useSelector(({ calendar }) => calendar);
+
+  useEffect(() => {
+    if (activeEvent) {
+      setFormValues(activeEvent);
+    }
+  }, [activeEvent, setFormValues]);
 
   const handleInputChange = ({ target }) => {
     setFormValues({
@@ -70,23 +83,29 @@ export const CalendarModal = () => {
       return setTitleValid(false);
     }
 
-    dispatch(
-      eventAddNew({
-        ...formValues,
-        id: new Date().getTime(),
-        user: {
-          _id: '123',
-          name: 'Acxel'
-        }
-      })
-    );
+    if (activeEvent) {
+      dispatch(eventUpdated(formValues));
+    } else {
+      dispatch(
+        eventAddNew({
+          ...formValues,
+          id: new Date().getTime(),
+          user: {
+            _id: '123',
+            name: 'Acxel',
+          },
+        })
+      );
+    }
 
     setTitleValid(true);
     closeModal();
   };
 
   const closeModal = () => {
+    setFormValues(initEvent);
     dispatch(uiCloseModal());
+    dispatch(eventClearActiveEvent());
   };
 
   const onChangeStartDate = (evt) => {
