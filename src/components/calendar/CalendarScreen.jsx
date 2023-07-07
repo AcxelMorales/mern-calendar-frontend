@@ -6,8 +6,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'moment/locale/es';
 
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { uiOpenModal } from '../../actions/ui';
 import { eventSetActive } from '../../actions/events';
@@ -81,7 +80,6 @@ export const CalendarScreen = () => {
       />
 
       <AddNewFab />
-
       <CalendarModal />
     </div>
   );
