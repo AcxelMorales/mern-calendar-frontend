@@ -17,17 +17,21 @@ export const AppRouter = () => {
     return <h3>Cargando...</h3>;
   }
 
-  // const authStatus = 'not-authenticated'; // 'authenticated'; // 'not-authenticated';
+  // 'not-authenticated' 'authenticated' 'not-authenticated';
 
   return (
     <Routes>
       {status === 'not-authenticated' ? (
-        <Route path="/auth/*" element={<LoginPage />} />
+        <>
+          <Route path="/auth/*" element={<LoginPage />} />
+          <Route path="/*" element={<Navigate to="/auth/login" />} />
+        </>
       ) : (
-        <Route path="/*" element={<CalendarPage />} />
+        <>
+          <Route path="/" element={<CalendarPage />} />
+          <Route path="/*" element={<Navigate to="/" />} />
+        </>
       )}
-
-      <Route path="/*" element={<Navigate to="/auth/login" />} />
     </Routes>
   );
 };
