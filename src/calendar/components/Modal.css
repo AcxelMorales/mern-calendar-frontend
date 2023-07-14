@@ -1,0 +1,14 @@
+.title-modal {
+  margin: 0;
+  margin: 10;
+  font-size: 35px;
+}
+
+.label-date {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.modal {
+  max-height: 536px !important
+}
