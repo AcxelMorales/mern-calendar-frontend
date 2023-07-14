@@ -29,10 +29,33 @@ export const useAuthStore = () => {
     }
   };
 
+  const startRegister = async ({ name, email, password }) => {
+    disptach(onChecking());
+
+    try {
+      const { data } = await calendarApi.post(`/auth/new`, {
+        name,
+        email,
+        password,
+      });
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('token-init-date', new Date().getTime());
+
+      disptach(onLoging({ name: data.name, uid: data.uid }));
+    } catch (error) {
+      disptach(onLogout(error.response.data.msg || ''));
+      setTimeout(() => {
+        disptach(clearErrorMessage());
+      }, 1000);
+    }
+  };
+
   return {
     status,
     user,
     errorMessage,
     startLogin,
+    startRegister,
   };
 };
