@@ -9,6 +9,8 @@ import {
 
 import { calendarApi } from '../api';
 
+import { convertDateEvents } from '../helpers';
+
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
   const { events, activeEvent } = useSelector((state) => state.calendar);
@@ -28,20 +30,26 @@ export const useCalendarStore = () => {
   };
 
   const startDeletingEvent = () => {
-    // Todo: Llegar al backend
-
     dispatch(onDeleteEvent());
   };
 
+  const startLoadingEvents = async () => {
+    try {
+      const {data: {eventos}} = await calendarApi.get('/events');
+      const events = convertDateEvents(eventos);
+      console.log(events);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
-    //* Propiedades
     activeEvent,
     events,
     hasEventSelected: !!activeEvent,
-
-    //* Métodos
     startDeletingEvent,
     setActiveEvent,
     startSavingEvent,
+    startLoadingEvents,
   };
 };
