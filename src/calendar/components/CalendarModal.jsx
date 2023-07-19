@@ -85,9 +85,7 @@ export const CalendarModal = () => {
 
     if (formValues.title.length <= 0) return;
 
-    console.log(formValues);
 
-    // TODO:
     await startSavingEvent(formValues);
     closeDateModal();
     setFormSubmitted(false);
@@ -133,7 +131,7 @@ export const CalendarModal = () => {
         </div>
 
         <div className="form-group mb-3">
-          <label>Titulo y notas</label>
+          <label className="label-date">Titulo y notas</label>
           <input
             type="text"
             className={`form-control ${titleClass}`}

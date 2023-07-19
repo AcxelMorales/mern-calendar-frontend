@@ -7,8 +7,13 @@
 .label-date {
   display: inline-block;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .modal {
-  max-height: 536px !important
+  max-height: 615 !important
+}
+
+.react-datepicker-wrapper {
+  display: block !important;
 }
