@@ -13,6 +13,7 @@ export const FabDelete = () => {
       onClick={handleDelete}
       style={{
         display: hasEventSelected ? '' : 'none',
+        zIndex: 99999
       }}
     >
       <i className="fas fa-trash-alt"></i>
