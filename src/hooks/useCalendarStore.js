@@ -37,13 +37,26 @@ export const useCalendarStore = () => {
     }
   };
 
-  const startDeletingEvent = async ({id}) => {
-    try {
-      await calendarApi.delete(`/events/${id}`);
-      dispatch(onDeleteEvent());
-    } catch (error) {
-      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
-    }
+  const startDeletingEvent = ({ id }) => {
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: 'No podrás revertir esto.!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminarlo!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await calendarApi.delete(`/events/${id}`);
+          dispatch(onDeleteEvent());
+          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        } catch (error) {
+          Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+        }
+      }
+    });
   };
 
   const startLoadingEvents = async () => {
