@@ -1,10 +1,13 @@
-import { useCalendarStore, useUiStore } from '../../hooks';
+import { useSelector } from 'react-redux';
+
+import { useCalendarStore } from '../../hooks';
 
 export const FabDelete = () => {
   const { startDeletingEvent, hasEventSelected } = useCalendarStore();
+  const { activeEvent } = useSelector((state) => state.calendar);
 
   const handleDelete = () => {
-    startDeletingEvent();
+    startDeletingEvent(activeEvent);
   };
 
   return (
@@ -13,7 +16,7 @@ export const FabDelete = () => {
       onClick={handleDelete}
       style={{
         display: hasEventSelected ? '' : 'none',
-        zIndex: 99999
+        zIndex: 99999,
       }}
     >
       <i className="fas fa-trash-alt"></i>
